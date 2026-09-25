@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test("renders the search filter app", () => {
+    render(<App />);
+    expect(
+        screen.getByRole("heading", { name: /find the right word/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("searchbox", { name: /search words/i })).toBeInTheDocument();
 });

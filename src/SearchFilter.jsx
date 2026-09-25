@@ -1,29 +1,122 @@
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react'
+import { useMemo, useState } from "react";
+import { FiHash, FiSearch, FiX } from "react-icons/fi";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import BackToTop from "./components/BackToTop";
+import { words } from "./words";
 
-const SearchFilter = () => {
-    const [words, setWords] = useState(["dispensable", "romantic", "squirrel", "bolt", "fixed", "winter", "many", "poke", "rhetorical", "linen", "tempt", "sassy", "hushed", "pathetic", "harm", "misty", "ready", "belong", "children", "quartz", "annoyed", "puzzled", "ritzy", "grotesque", "acidic", "evanescent", "name", "ruin", "questionable", "dear", "retire", "crabby", "shallow", "attach", "doll", "raise", "fog", "rural", "ambitious", "nine", "crook", "lavish", "prefer", "bare", "bashful", "stupendous", "neighborly", "elegant", "title", "assorted", "sound", "frequent", "part", "compete", "unequaled", "grass", "strengthen", "blink", "tiresome", "club", "divergent", "kill", "sugar", "scribble", "rabbit", "average", "faulty", "leather", "polish", "offbeat", "stormy", "song", "racial", "animal", "ubiquitous", "clammy", "useful", "corn", "clean", "lighten", "telling", "tent", "yard", "suppose", "weight", "nerve", "humorous", "accidental", "stocking", "abhorrent", "vacuous", "rough", "program", "key", "puny", "ill-informed", "jittery", "cherries", "laugh", "disagree", "unnatural", "bewildered", "cakes", "needle", "muddled", "nonstop", "macabre", "noisy", "party", "bat", "cushion", "goofy", "productive", "skillful", "pin", "mine", "obsolete", "road", "heavenly", "peaceful", "health", "resonant", "warlike", "bleach", "cub", "cook", "jam", "nonchalant", "highfalutin", "unfasten", "tan", "literate", "station", "root", "battle", "volcano", "flawless", "lopsided", "sparkle", "cast", "protect", "chilly", "basketball", "plausible", "check", "grumpy", "sick", "caring", "alleged", "wind", "tight", "zealous", "flippant", "naughty", "languid", "cats", "cannon", "disgusting", "self", "partner", "boil", "murky", "downtown", "tramp", "reject", "count", "unbecoming", "trade", "respect", "potato", "gray", "exchange", "cheerful", "cough", "plug", "stew", "flap", "zebra", "boundary", "possess", "whisper", "berserk", "motionless", "attractive", "camp", "listen", "gorgeous", "unusual", "busy", "spy", "mature", "snatch", "breezy", "work", "live", "nostalgic", "erect", "impress", "daily", "hum"]);
-    const [filteredList, setFilteredList] = useState([]);
+function SearchFilter() {
     const [searchWord, setSearchWord] = useState("");
-    useEffect(() => {
-        let searchFilteredList = [...words];
-        searchFilteredList = searchFilteredList.filter((item) => {
-            return item.toLowerCase().indexOf(searchWord.toLowerCase()) !== -1;
-        });
-        setFilteredList([...searchFilteredList]);
+
+    const filteredWords = useMemo(() => {
+        const query = searchWord.trim().toLowerCase();
+        if (!query) return words;
+        return words.filter((word) => word.toLowerCase().includes(query));
     }, [searchWord]);
 
-    return (
-        <div styles={{ padding: "30px" }}>
-            <h1>SearchFilter</h1>
+    const clearSearch = () => setSearchWord("");
 
-            <input type="text" placeholder="type here to search any word" value={searchWord} onChange={(event) => setSearchWord(searchWord => event.target.value)} style={{ width: "300px", height: "40px", paddingLeft: "15px" }} />
-            <div style={{ border: "1px solid #f00", margin: "15px", height: "200px", overflow: "scroll", display: "flex", flexWrap: "wrap" }}>
-                {filteredList.length > 0 && filteredList.map((item, index) => <span style={{ margin: "15px", padding: "15px", backgroundColor: "aliceblue", display: "flex", alignItems: "center", height: "30px" }} key={index}>{item}</span>)}
-            </div>
+    return (
+        <div id="top" className="page-shell">
+            <Header />
+
+            <main>
+                <section className="hero-section">
+                    <div className="hero-copy">
+                        <p className="eyebrow">React UI playground</p>
+                        <h1>Find the right word in a growing collection.</h1>
+                        <p className="hero-text">
+                            Search through a curated word list with a fast, focused interface
+                            built for experimentation and reusable UI patterns.
+                        </p>
+                    </div>
+
+                    <div className="hero-stat">
+                        <FiHash />
+                        <strong>{words.length}</strong>
+                        <span>words to explore</span>
+                    </div>
+                </section>
+
+                <section className="search-card" id="search" aria-labelledby="search-title">
+                    <div className="section-heading">
+                        <div>
+                            <p className="eyebrow">Search the collection</p>
+                            <h2 id="search-title">What are you looking for?</h2>
+                        </div>
+                        <span className="result-count">
+                            {filteredWords.length} match{filteredWords.length === 1 ? "" : "es"}
+                        </span>
+                    </div>
+
+                    <div className="search-field">
+                        <FiSearch aria-hidden="true" />
+                        <input
+                            type="search"
+                            value={searchWord}
+                            onChange={(event) => setSearchWord(event.target.value)}
+                            placeholder="Type a word to filter the list"
+                            aria-label="Search words"
+                        />
+                        {searchWord ? (
+                            <button
+                                className="clear-button"
+                                type="button"
+                                onClick={clearSearch}
+                                aria-label="Clear search"
+                                title="Clear search"
+                            >
+                                <FiX />
+                            </button>
+                        ) : null}
+                    </div>
+                </section>
+
+                <section className="results-section" id="results" aria-live="polite">
+                    <div className="results-heading">
+                        <div>
+                            <p className="eyebrow">Browse results</p>
+                            <h2>
+                                {searchWord
+                                    ? "Matches for \"" + searchWord + "\""
+                                    : "All words"}
+                            </h2>
+                        </div>
+                        <p className="results-note">Select a word to copy it.</p>
+                    </div>
+
+                    {filteredWords.length ? (
+                        <div className="word-grid">
+                            {filteredWords.map((word) => (
+                                <button
+                                    className="word-chip"
+                                    type="button"
+                                    key={word}
+                                    onClick={() => navigator.clipboard?.writeText(word)}
+                                    title="Copy word"
+                                >
+                                    <span>{word}</span>
+                                    <FiHash aria-hidden="true" />
+                                </button>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="empty-state">
+                            <FiSearch />
+                            <h3>No matching words</h3>
+                            <p>Try a shorter search term or clear the current filter.</p>
+                            <button className="secondary-button" type="button" onClick={clearSearch}>
+                                Clear search
+                            </button>
+                        </div>
+                    )}
+                </section>
+            </main>
+
+            <Footer />
+            <BackToTop />
         </div>
-    )
+    );
 }
 
-export default SearchFilter
+export default SearchFilter;
