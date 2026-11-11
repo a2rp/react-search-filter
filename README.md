@@ -15,7 +15,7 @@ A responsive React interface for searching and browsing a curated collection of 
 
 ## Tech stack
 
-React, Create React App, CSS, and React Icons.
+React, Vite, CSS, React Icons, and Vitest.
 
 ## Run locally
 
@@ -23,6 +23,8 @@ React, Create React App, CSS, and React Icons.
 npm install
 npm start
 ```
+
+Run the existing UI check with `npm test`.
 
 Create a production build with `npm run build`. Deploy to GitHub Pages with `npm run deploy`.
 

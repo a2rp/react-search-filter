@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { FiHash, FiSearch, FiX } from "react-icons/fi";
+import { FiHash, FiSearch } from "react-icons/fi";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
@@ -58,17 +58,6 @@ function SearchFilter() {
                             placeholder="Type a word to filter the list"
                             aria-label="Search words"
                         />
-                        {searchWord ? (
-                            <button
-                                className="clear-button"
-                                type="button"
-                                onClick={clearSearch}
-                                aria-label="Clear search"
-                                title="Clear search"
-                            >
-                                <FiX />
-                            </button>
-                        ) : null}
                     </div>
                 </section>
 

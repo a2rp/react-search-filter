@@ -17,7 +17,7 @@ function Header() {
         <header className="site-header">
             <div className="header-inner">
                 <a className="brand" href="#top" onClick={closeMenu}>
-                    <img src="/logo.png" alt="" />
+                    <img src={import.meta.env.BASE_URL + "logo.png"} alt="" />
                     <span>
                         <strong>Search Filter</strong>
                         <small>React word explorer</small>
